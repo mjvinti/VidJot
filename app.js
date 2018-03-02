@@ -9,7 +9,7 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Load routes
 const ideas = require('./routes/ideas');
@@ -18,10 +18,13 @@ const users = require('./routes/users');
 // Passport Config
 require('./config/passport')(passport);
 
+// DB Config
+const db = require('./config/database');
+
 // Map global promise - get rid of warning
 mongoose.Promise = global.Promise;
 // Connect to mongoose
-mongoose.connect('mongodb://localhost/vidjot-dev')
+mongoose.connect(db.mognoURI)
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
 
